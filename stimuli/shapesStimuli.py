@@ -150,7 +150,8 @@ class Trial_flickeringShapes:
         if self.pPort != 0:
             self.pPort.setData(int("00000000",2))   # Force all the pins LOW
             sleep(.001)                             # 1ms trigger length
-            self.pPort.setData(self.trigValue)      # Pull back HIGH the desired pin 
+            self.pPort.setData(int("00010001",2))
+            # self.pPort.setData(self.trigValue)      # Pull back HIGH the desired pin 
 
         # STIMULATION LOOP
         # -----------------------------    
@@ -170,6 +171,10 @@ class Trial_flickeringShapes:
         # POSTSTIM
         for _ in range(self.postStimFrames):
             self.stimWindow.flip()
+
+        sleep(0.1)
+        if self.pPort != 0:
+            self.pPort.setData(int("00000001",2))   # Force all the pins LOW
         
     #---------------------------------------------------------------------------
     #--- INTERNAL FUNCTIONS
