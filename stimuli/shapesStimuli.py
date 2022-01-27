@@ -64,7 +64,8 @@ class Trial_flickeringShapes:
 
         # Check that a supported shape is requested
         msg = "Shape must be one of 'cross','triangle', or 'circle'"
-        assert shape in ['cross','triangle','circle'], msg
+        assert shape in ['cross', 'triangle', 'circle', 'square', 'h_letter',
+                         'v_letter', 'star', 't_letter', 's_letter', 'w_letter', msg]
         
         # Check that the pin for the trigger is an int between 1 and 8
         msg = "triggerPin must be an integer between 1 and 8."
@@ -87,6 +88,20 @@ class Trial_flickeringShapes:
             coord = self._triangleCoordinates(width=width, stroke=stroke)
         elif shape == 'circle':
             coord = self._circleCoordinates(width=width, stroke=stroke)
+        elif shape == 'square':
+            coord = self._squareCoordinates(width=width, stroke=stroke)
+        elif shape == 'h_letter':
+            coord = self._h_letterCoordinates(width=width, stroke=stroke)
+        elif shape == 'v_letter':
+            coord = self._v_letterCoordinates(width=width, stroke=stroke)
+        elif shape == 'star':
+            coord = self._starCoordinates(width=width, stroke=stroke)
+        elif shape == 't_letter':
+            coord = self._t_letterCoordinates(width=width, stroke=stroke)
+        elif shape == 's_letter':
+            coord = self._s_letterCoordinates(width=width, stroke=stroke)
+        elif shape == 'w_letter':
+            coord = self._w_letterCoordinates(width=width, stroke=stroke)
 
         # Generate the coordinates for restricting the stimulus visibility by
         # using both aperture and an optional shapeStim for shapes with holes
@@ -223,6 +238,112 @@ class Trial_flickeringShapes:
              for e in range(int(round(edges)))])
         return vertices
 
+    def _squareCoordinates(self, width=10, stroke=2):
+        # calculates the 8 coordinates of external and internal square
+        coordExt = np.zeros([4,2])
+        coordInt = np.zeros([4,2])
+
+        coordExt[0,:] = [-width/2 - stroke, -width/2 - stroke]
+        coordExt[1,:] = [width/2 + stroke, -width/2 - stroke]
+        coordExt[2,:] = [width/2 + stroke, width/2 + stroke]
+        coordExt[3,:] = [-width/2 - stroke, width/2 + stroke]
+
+        coordInt[0, :] = [-width/2 + stroke, -width/2 + stroke]
+        coordInt[1, :] = [width/2 - stroke, -width/2 + stroke]
+        coordInt[2, :] = [width/2 - stroke, width/2 - stroke]
+        coordInt[3, :] = [-width/2 + stroke, width/2 - stroke]
+
+        coord = np.dstack((coordExt, coordInt))
+        return coord
+
+    def _h_letterCoordinates(self, width=10, stroke=2):
+        # calculates the 12 coordinates of letter H
+        coord = np.zeros([12,2])
+        coord[0,:] = [-width/2 - stroke, -width/2- stroke]
+        coord[1,:] = [-width/2 + stroke, -width/2- stroke]
+        coord[2,:] = [-width/2 + stroke, - stroke]
+        coord[3,:] = [width/2 - stroke, -stroke]
+        coord[4,:] = [width/2 - stroke, -width/2- stroke]
+        coord[5,:] = [width/2 + stroke, -width/2- stroke]
+        coord[6,:] = [width/2 + stroke, width/2+ stroke]
+        coord[7,:] = [width/2 - stroke, width/2+ stroke]
+        coord[8,:] = [width/2 - stroke, stroke]
+        coord[9,:] = [-width/2 + stroke, stroke]
+        coord[10,:] = [-width/2 + stroke, width/2+ stroke]
+        coord[11,:] = [-width/2 - stroke, width/2+ stroke]
+        return coord
+
+    def _v_letterCoordinates(self, width=10, stroke=2):
+        # calculates the 12 coordinates of letter V
+        k = stroke/(2*math.sqrt(2))
+        coord = np.zeros([6,2])
+        coord[0,:] = [0, -width/2 - stroke-k]
+        coord[1,:] = [width/2 + stroke/2, width/2-stroke/2]
+        coord[2,:] = [width/2 - stroke/2, width/2 + stroke/2]
+        coord[3,:] = [0, -width/2 + stroke+k]
+        coord[4,:] = [-width/2 + stroke/2, width/2 + stroke/2]
+        coord[5,:] = [-width/2 - stroke/2, width/2 - stroke/2]
+        return coord
+
+    def _starCoordinates(self, width=10, stroke=2):
+        # calculates the 12 coordinates of letter V
+        k = (width/2 + stroke ) * 1.2
+        coord = np.zeros([10,2])
+        coord[0,:] = [-0.6*k, -0.9*k]
+        coord[1,:] = [0, -0.4*k]
+        coord[2,:] = [0.6*k, -0.9*k]
+        coord[3,:] = [0.35*k, -0.15*k]
+        coord[4,:] = [0.9*k, 0.25*k]
+        coord[5,:] = [0.2*k, 0.25*k]
+        coord[6,:] = [0, k]
+        coord[7,:] = [-0.2*k, 0.25*k]
+        coord[8,:] = [-0.9*k, 0.25*k]
+        coord[9,:] = [-0.35*k, -0.15*k]
+        return coord
+
+    def _t_letterCoordinates(self, width=10, stroke=2):
+        coord = np.zeros([8,2])
+        coord[0, :] = [-stroke, -width/2 - stroke]
+        coord[1, :] = [stroke, -width/2 - stroke]
+        coord[2, :] = [stroke, width/2 - stroke]
+        coord[3, :] = [width/2 + stroke, width/2 - stroke]
+        coord[4, :] = [width/2 + stroke,width/2 + stroke]
+        coord[5, :] = [-width/2 - stroke, width/2 + stroke]
+        coord[6, :] = [-width/2 - stroke, width/2 - stroke]
+        coord[7, :] = [-stroke, width/2 - stroke]
+        return coord
+
+    def _s_letterCoordinates(self, width=10, stroke=2):
+        coord = np.zeros([12, 2])
+        coord[0,:] = [-width/2 - stroke, -width/2 - stroke]
+        coord[1,:] = [width/2 + stroke, -width/2-stroke]
+        coord[2,:] = [width/2 + stroke, stroke]
+        coord[3,:] = [-width/2 + stroke, stroke]
+        coord[4,:] = [-width/2 + stroke, width/2 - stroke]
+        coord[5,:] = [width/2 + stroke, width/2 - stroke]
+        coord[6,:] = [width/2 + stroke, width/2 + stroke]
+        coord[7,:] = [-width/2 - stroke, width/2 + stroke]
+        coord[8,:] = [-width/2 - stroke, -stroke]
+        coord[9,:] = [width/2 - stroke, -stroke]
+        coord[10, :] = [width/2 - stroke, -width/2 + stroke]
+        coord[11, :] = [- width/2 - stroke, -width/2 + stroke]
+        return coord
+
+    def _w_letterCoordinates(self, width=10, stroke=2):
+        coord = np.zeros([12, 2])
+        coord[0, :] = [-width/4 - stroke, -width/2 - stroke]
+        coord[1, :] = [-width/4 + stroke/2, -width/2 - stroke]
+        coord[2, :] = [0, -stroke]
+        coord[3, :] = [width/4 - stroke/2, -width/2 - stroke]
+        coord[4, :] = [width/4 + stroke, -width/2 - stroke]
+        coord[5, :] = [width/2 + stroke, width/2 + stroke]
+        coord[6, :] = [width/2 - stroke, width/2 + stroke]
+        coord[7, :] = [width/4 - stroke/4, -stroke]
+        coord[8, :] = [0, (3/2)*stroke]
+        coord[9, :] = [-width/4 + stroke/4, -stroke]
+        coord[10, :] = [-width/2 + stroke, width/2 + stroke]
+        coord[11, :] = [-width/2 - stroke, width/2 + stroke]
+        return coord
 
 # Example implementation of the three stimuli
 if __name__ == '__main__':
@@ -239,15 +360,15 @@ if __name__ == '__main__':
 
     # Experiment by changing these parameters
     # --------------------------------------------------------------------------
-    width = 30          # width in degrees of the shapes
-    stroke = 4          # thickness in degrees of the shapes
+    width = 40          # width in degrees of the shapes
+    stroke = 5          # thickness in degrees of the shapes
 
-    chkbrdTempFreq = 5         # Temporal freq of the flickering checkerboard
+    chkbrdTempFreq = 4         # Temporal freq of the flickering checkerboard
     chkbrdSpFreq = 0.08        # Spatial frequency of the checkerboard
-    chkbrdContrast = 0.8       # Contrast of the checkerboard
+    chkbrdContrast = 0.6       # Contrast of the checkerboard
     
     prestimFrames = 30         # Number of 'gray' frames before the stimulus onset
-    stimFrames = 120           # Number of frames the stimulus is visible
+    stimFrames = 30           # Number of frames the stimulus is visible
     postStimFrames = 60        # Number of post-stimulation 'gray' frames
     # --------------------------------------------------------------------------
 
@@ -255,7 +376,7 @@ if __name__ == '__main__':
     stimWin = visual.Window(
         size = (1200,800),
         screen = 0,
-        fullscr = False,
+        fullscr = True,
         units = 'deg',
         monitor = mon,
         allowStencil = True
@@ -306,9 +427,114 @@ if __name__ == '__main__':
         stimFrames=stimFrames,
         postStimFrames=postStimFrames)
 
+    # Create an object for the square
+    square = Trial_flickeringShapes(
+        stimWin,
+        mask,
+        shape='square',
+        width=width,
+        stroke=stroke,
+        chkbrdSpFreq=chkbrdSpFreq,
+        chkbrdTempFreq=chkbrdTempFreq,
+        chkbrdContrast=chkbrdContrast,
+        prestimFrames=prestimFrames,
+        stimFrames=stimFrames,
+        postStimFrames=postStimFrames)
+
+    # Create an object for the h_letter
+    h_letter = Trial_flickeringShapes(
+        stimWin,
+        mask,
+        shape='h_letter',
+        width=width,
+        stroke=stroke,
+        chkbrdSpFreq=chkbrdSpFreq,
+        chkbrdTempFreq=chkbrdTempFreq,
+        chkbrdContrast=chkbrdContrast,
+        prestimFrames=prestimFrames,
+        stimFrames=stimFrames,
+        postStimFrames=postStimFrames)
+
+    # Create an object for the v_letter
+    v_letter = Trial_flickeringShapes(
+        stimWin,
+        mask,
+        shape='v_letter',
+        width=width,
+        stroke=stroke,
+        chkbrdSpFreq=chkbrdSpFreq,
+        chkbrdTempFreq=chkbrdTempFreq,
+        chkbrdContrast=chkbrdContrast,
+        prestimFrames=prestimFrames,
+        stimFrames=stimFrames,
+        postStimFrames=postStimFrames)
+
+    # Create an object for the star
+    star = Trial_flickeringShapes(
+        stimWin,
+        mask,
+        shape='star',
+        width=width,
+        stroke=stroke,
+        chkbrdSpFreq=chkbrdSpFreq,
+        chkbrdTempFreq=chkbrdTempFreq,
+        chkbrdContrast=chkbrdContrast,
+        prestimFrames=prestimFrames,
+        stimFrames=stimFrames,
+        postStimFrames=postStimFrames)
+
+    # Create an object for the t_letter
+    t_letter = Trial_flickeringShapes(
+        stimWin,
+        mask,
+        shape='t_letter',
+        width=width,
+        stroke=stroke,
+        chkbrdSpFreq=chkbrdSpFreq,
+        chkbrdTempFreq=chkbrdTempFreq,
+        chkbrdContrast=chkbrdContrast,
+        prestimFrames=prestimFrames,
+        stimFrames=stimFrames,
+        postStimFrames=postStimFrames)
+
+    # Create an object for the s_letter
+    s_letter = Trial_flickeringShapes(
+        stimWin,
+        mask,
+        shape='s_letter',
+        width=width,
+        stroke=stroke,
+        chkbrdSpFreq=chkbrdSpFreq,
+        chkbrdTempFreq=chkbrdTempFreq,
+        chkbrdContrast=chkbrdContrast,
+        prestimFrames=prestimFrames,
+        stimFrames=stimFrames,
+        postStimFrames=postStimFrames)
+
+    # Create an object for the w_letter
+    w_letter = Trial_flickeringShapes(
+        stimWin,
+        mask,
+        shape='w_letter',
+        width=width,
+        stroke=stroke,
+        chkbrdSpFreq=chkbrdSpFreq,
+        chkbrdTempFreq=chkbrdTempFreq,
+        chkbrdContrast=chkbrdContrast,
+        prestimFrames=prestimFrames,
+        stimFrames=stimFrames,
+        postStimFrames=postStimFrames)
+
     # Show trials for each shape
     for _ in range(1):
-        cross.doTrial()
-        triangle.doTrial()
-        circle.doTrial()
+        #cross.doTrial()
+        #triangle.doTrial()
+        #circle.doTrial()
+        square.doTrial()
+        h_letter.doTrial()
+        v_letter.doTrial()
+        star.doTrial()
+        t_letter.doTrial()
+        s_letter.doTrial()
+        w_letter.doTrial()
 
