@@ -18,8 +18,8 @@ src.B1BinningHorizontal = '04';
 src.B2BinningVertical = '04';
 
 src.AMAcquireMode = 'sequence_trigger';
-src.AMImageNumber = 60;
-vid.FramesPerTrigger = 60;
+src.AMImageNumber = 70;
+vid.FramesPerTrigger= 70;
 src.IO_2SignalPolarity = 'low';
 
 triggerconfig(vid, 'manual');
