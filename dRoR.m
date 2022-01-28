@@ -15,7 +15,7 @@ function res = dRoR(avgMovie,avgBase)
 % see also ios_preprocessing
 
 
-baseline =mean(avgBase,3);
+baseline = mean(avgBase,3);
 
 res = bsxfun(@rdivide,bsxfun(@minus,avgMovie,baseline),baseline);
 end
