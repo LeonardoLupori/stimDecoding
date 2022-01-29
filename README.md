@@ -1,5 +1,6 @@
 # stimDecoding
 Decoding visual stimuli from cortical activity.
+
 This repo contains scripts for recording widefield calcium imaging as well as intrinsic signal optical imaging data from the visual cortex of mice.
 
 # Experimental setup
